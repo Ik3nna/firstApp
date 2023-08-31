@@ -1,85 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { Button, FlatList, Linking, Pressable, RefreshControl, SafeAreaView, ScrollView, SectionList, StyleSheet, Text, View } from 'react-native';
+import { Button, SafeAreaView,StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
-  const [items, setItems] = useState([
-    {name: "Item 1"},
-    {name: "Item 2"},
-    {name: "Item 3"},
-    {name: "Item 4"},
-    {name: "Item 5"},
-    {name: "Item 6"},
-    {name: "Item 7"},
-    {name: "Item 8"},
-    {name: "Item 9"},
-    {name: "Item 10"},
-  ]);
-
-  const [refreshing, setRefreshing] = useState(false);
-
-  const [count, setCount] = useState(1)
-
-  const [Data, setData] = useState([
-    {
-      title: `Title ${count}`,
-      data: [`Item ${count}-1`, `Item ${count}-2`, `Item ${count}-3`]
-    }
-  ])
-
-  const onRefresh = ()=> {
-    setRefreshing(true);
-    setCount(prevCount => prevCount + 1)
-    setData([...Data, { title: `Title ${count + 1}`, data: [`Item ${count + 1}-1`, `Item ${count + 1}-2`, `Item ${count + 1}-3`] }]);
-    setRefreshing(false)
+  const [name, setName] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const onPressHandler =()=> {
+    setSubmitted(!submitted);
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'blue' }}> 
-      <SectionList 
-        keyExtractor={(item, index)=>index.toString()}
-        sections={Data}
-        renderItem={({item})=>(
-          // <View style={styles.item}>
-            <Text style={styles.text}>{item}</Text>
-          // </View>
-        )}
-        renderSectionHeader={({section})=>(
-          <View style={styles.item}>
-            <Text style={styles.text}>{section.title}</Text>
-          </View>
-        )}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}> 
+      <StatusBar style='auto' />
+      <View style={styles.container}>
+        <Text style={styles.text}>Please write your name: </Text>
+        <TextInput 
+          style={styles.input} 
+          placeholder='Enter your name...'
+          onChangeText={(value)=>setName(value)}
+          multiline
+          keyboardType="name-phone-pad"
+        />
+        <Button 
+          title={submitted ? "clear" : 'submit'}
+          onPress={onPressHandler}
+        />
+        {submitted && 
+          <Text style={styles.text}>
+            Your are registered as {name}
+          </Text>
         }
-      />
-      {/* <FlatList
-        keyExtractor={(item, index)=> index.toString()}
-        data={items}
-        renderItem={({item})=>(
-          <View style={styles.item}>
-            <Text style={styles.text}>{item.name}</Text>
-          </View>
-        )}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} />
-        }
-      /> */}
-      {/* <ScrollView 
-        style={styles.container} 
-        refreshControl={<RefreshControl 
-        refreshing={refreshing} 
-        />}
-      >
-        <StatusBar style="black" />
-        {items.map((item)=>{
-          return(
-            <View key={item.key} style={styles.item}>
-              <Text style={styles.text}>{item.item}</Text>
-            </View>
-          )
-        })}
-      </ScrollView> */}
+      </View>
     </SafeAreaView>
   );
 }
@@ -87,18 +38,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue',
-    
-  },
-  item: {
-    backgroundColor: "yellow",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10
+    backgroundColor: "#ffffff",
+    alignItems: "center"
   },
   text: {
-    fontSize: 40,
-    fontStyle: "italic",
+    fontSize: 20,
     margin: 10
+  },
+  input: {
+    borderWidth: 1,
+    width: 200,
+    border: "#555",
+    borderRadius: 5,
+    padding: 10,
   }
 });
