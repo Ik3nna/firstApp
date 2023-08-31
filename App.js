@@ -1,21 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { Alert, Button, Pressable, SafeAreaView,StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
+import { Alert, Button, Modal, Pressable, SafeAreaView,StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
 
 export default function App() {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+
   const onPressHandler =()=> {
     if (name.length > 3) {
       setSubmitted(!submitted);
     }
     else {
-      // Alert.alert("Warning", "The name must be longer than 3 characters", [
-      //   {text: "OK"},
-      //   {text: "Cancel"},
-      //   {text: "Do not show again"}
-      // ], { cancelable: true, })
-      ToastAndroid.show("The name must be at least 3 characters", ToastAndroid.SHORT)
+      setShowWarning(true);
     }
   }
 
@@ -23,6 +20,32 @@ export default function App() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}> 
       <StatusBar style='auto' />
       <View style={styles.container}>
+        <Modal
+          visible={showWarning}
+          transparent
+          onRequestClose={()=>
+            setShowWarning(false)
+          }
+          animationType="slide"
+        >
+          <View style={styles.centered_view}>
+            <View style={styles.warning_title}>
+              <Text>WARNING!!!</Text>
+            </View>
+
+            <View style={styles.warning_body}>
+              <Text>The name must be longer than 3 characters</Text>
+            </View>
+
+            <Pressable onPress={()=>setShowWarning(false)}>
+              <Text>OK</Text>
+            </Pressable>
+
+            {/* <View style={styles.warning_modal}>
+              
+            </View> */}
+          </View>
+        </Modal>
         <Text style={styles.text}>Please write your name: </Text>
         <TextInput 
           style={styles.input} 
@@ -39,7 +62,7 @@ export default function App() {
             { backgroundColor: pressed ? "#dddddd" : "00ff00" },
           ]}
         >
-          <Text style={styles.tet}>
+          <Text style={styles.text}>
             {submitted ? "Clear" : "Submit"}
           </Text>
         </Pressable>
@@ -69,5 +92,30 @@ const styles = StyleSheet.create({
     border: "#555",
     borderRadius: 5,
     padding: 10,
+  },
+  centered_view: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#00000099"
+  },
+  warning_title: {
+    height: 50,
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ff0",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  },
+  warning_body: {
+    width: 300,
+    height: 300,
+    backgroundColor: "#fff",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center"
   }
 });
