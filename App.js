@@ -1,12 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { Button, SafeAreaView,StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Pressable, SafeAreaView,StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
 
 export default function App() {
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const onPressHandler =()=> {
-    setSubmitted(!submitted);
+    if (name.length > 3) {
+      setSubmitted(!submitted);
+    }
+    else {
+      // Alert.alert("Warning", "The name must be longer than 3 characters", [
+      //   {text: "OK"},
+      //   {text: "Cancel"},
+      //   {text: "Do not show again"}
+      // ], { cancelable: true, })
+      ToastAndroid.show("The name must be at least 3 characters", ToastAndroid.SHORT)
+    }
   }
 
   return (
@@ -21,10 +31,18 @@ export default function App() {
           multiline
           keyboardType="name-phone-pad"
         />
-        <Button 
-          title={submitted ? "clear" : 'submit'}
+        <Pressable
           onPress={onPressHandler}
-        />
+          hitSlop={{ top:10, bottom:10, left:10, right:10 }}
+          andriod_ripple={{color: "00f"}}
+          style={({pressed})=> [
+            { backgroundColor: pressed ? "#dddddd" : "00ff00" },
+          ]}
+        >
+          <Text style={styles.tet}>
+            {submitted ? "Clear" : "Submit"}
+          </Text>
+        </Pressable>
         {submitted && 
           <Text style={styles.text}>
             Your are registered as {name}
