@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { Alert, Button, Modal, Pressable, SafeAreaView,StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native';
+import { Alert, Button, Modal, Pressable, SafeAreaView,StyleSheet, Text, TextInput, Image, View, ImageBackground } from 'react-native';
 
 export default function App() {
   const [name, setName] = useState("");
@@ -19,7 +19,7 @@ export default function App() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}> 
       <StatusBar style='auto' />
-      <View style={styles.container}>
+      <ImageBackground style={styles.container} source={{ uri: "https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png" }}>
         <Modal
           visible={showWarning}
           transparent
@@ -66,12 +66,17 @@ export default function App() {
             {submitted ? "Clear" : "Submit"}
           </Text>
         </Pressable>
-        {submitted && 
+        {submitted ?
           <Text style={styles.text}>
             Your are registered as {name}
-          </Text>
+          </Text> :
+          <Image 
+            style={styles.image}
+            source={require("./assets/icon.png")}
+            resizeMode="stretch"
+          />
         }
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -79,7 +84,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    // backgroundColor: "#ffffff",
     alignItems: "center"
   },
   text: {
@@ -117,5 +122,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center"
+  },
+  image: {
+    width: 100,
+    height: 100
   }
 });
