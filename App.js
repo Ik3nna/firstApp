@@ -1,82 +1,55 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
-import React from "react";
-import { Pressable, StyleSheet, Text, View, } from 'react-native';
+import { createBottomTabNavigator  } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import Home from './src/screens/home';
+import About from './src/screens/about';
 
-const Stack = createStackNavigator();
+// icons
+import { FontAwesome } from '@expo/vector-icons'; 
+import { SafeAreaView } from 'react-native';
 
-function Home ({ navigation }) {
-  const onPressHandler = ()=> {
-    navigation.navigate("About")
-  }
-
-  return(
-    <View style={styles.body}>
-      <Text style={styles.text}>Home</Text>
-
-      <Pressable
-        onPress={onPressHandler}
-        style={({pressed})=> 
-        [
-          { backgroundColor: pressed ? "#ddd" : "#0f0" },
-          styles.button
-        ]}
-      >
-        <Text>Go to About page</Text>
-      </Pressable>
-    </View>
-  )
-}
-
-function About ({ navigation }) {
-  const onPressHandler = ()=> {
-    // navigation.navigate("Home")
-    navigation.goBack();
-  }
-
-  return(
-    <View style={styles.body}>
-      <Text style={styles.text}>About</Text>
-
-      <Pressable
-        onPress={onPressHandler}
-        style={({pressed})=> 
-        [
-          { backgroundColor: pressed ? "#ddd" : "#0f0" },
-          styles.button
-        ]}
-      >
-        <Text>Go to Home page</Text>
-      </Pressable>
-    </View>
-  )
-}
+// const Tab = createBottomTabNavigator();
+// const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ header: ()=> null }}>
-        <Stack.Screen name="Home" component={Home} /> 
-        <Stack.Screen name="About" component={About} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({route})=>({
+            tabBarIcon: ({ focused, size, color })=>{
+              let iconName;
+              if (route.name === "Home") {
+                iconName="home";
+                size=focused ? 25 : 20;
+                // color=focused && "blue"
+              } else if (route.name === "About") {
+                iconName="info-circle";
+                size=focused ? 25 : 20;
+                // color=focused && "blue"
+              }
+              return (
+                <FontAwesome name={iconName} size={size} color={color} />
+              )
+            }
+          })}
+          // activeColor='#f0edf6'
+          // inactiveColor='#3e2465'
+          // barStyle={{ backgroundColor: "#694fad" }}
+          tabBarOptions={{
+            activeTintColor: 'blue',
+            inactiveTintColor: "black",
+            labelStyle: { fontSize: 20 },
+          }}
+        >
+          <Tab.Screen name="Home" component={Home} /> 
+          <Tab.Screen name="About" component={About} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  text: {
-    fontSize: 40,
-    fontWeight: "bold"
-  },
-  button: {
-    padding: 10,
-    borderRadius: 10,
-  }
-});
+
