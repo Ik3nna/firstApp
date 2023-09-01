@@ -1,130 +1,82 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from "react";
-import { Alert, Button, Modal, Pressable, SafeAreaView,StyleSheet, Text, TextInput, Image, View, ImageBackground } from 'react-native';
+import React from "react";
+import { Pressable, StyleSheet, Text, View, } from 'react-native';
 
-export default function App() {
-  const [name, setName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
+const Stack = createStackNavigator();
 
-  const onPressHandler =()=> {
-    if (name.length > 3) {
-      setSubmitted(!submitted);
-    }
-    else {
-      setShowWarning(true);
-    }
+function Home ({ navigation }) {
+  const onPressHandler = ()=> {
+    navigation.navigate("About")
   }
 
+  return(
+    <View style={styles.body}>
+      <Text style={styles.text}>Home</Text>
+
+      <Pressable
+        onPress={onPressHandler}
+        style={({pressed})=> 
+        [
+          { backgroundColor: pressed ? "#ddd" : "#0f0" },
+          styles.button
+        ]}
+      >
+        <Text>Go to About page</Text>
+      </Pressable>
+    </View>
+  )
+}
+
+function About ({ navigation }) {
+  const onPressHandler = ()=> {
+    // navigation.navigate("Home")
+    navigation.goBack();
+  }
+
+  return(
+    <View style={styles.body}>
+      <Text style={styles.text}>About</Text>
+
+      <Pressable
+        onPress={onPressHandler}
+        style={({pressed})=> 
+        [
+          { backgroundColor: pressed ? "#ddd" : "#0f0" },
+          styles.button
+        ]}
+      >
+        <Text>Go to Home page</Text>
+      </Pressable>
+    </View>
+  )
+}
+
+export default function App() {
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}> 
-      <StatusBar style='auto' />
-      <ImageBackground style={styles.container} source={{ uri: "https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png" }}>
-        <Modal
-          visible={showWarning}
-          transparent
-          onRequestClose={()=>
-            setShowWarning(false)
-          }
-          animationType="slide"
-        >
-          <View style={styles.centered_view}>
-            <View style={styles.warning_title}>
-              <Text>WARNING!!!</Text>
-            </View>
-
-            <View style={styles.warning_body}>
-              <Text>The name must be longer than 3 characters</Text>
-            </View>
-
-            <Pressable onPress={()=>setShowWarning(false)}>
-              <Text>OK</Text>
-            </Pressable>
-
-            {/* <View style={styles.warning_modal}>
-              
-            </View> */}
-          </View>
-        </Modal>
-        <Text style={styles.text}>Please write your name: </Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder='Enter your name...'
-          onChangeText={(value)=>setName(value)}
-          multiline
-          keyboardType="name-phone-pad"
-        />
-        <Pressable
-          onPress={onPressHandler}
-          hitSlop={{ top:10, bottom:10, left:10, right:10 }}
-          andriod_ripple={{color: "00f"}}
-          style={({pressed})=> [
-            { backgroundColor: pressed ? "#dddddd" : "00ff00" },
-          ]}
-        >
-          <Text style={styles.text}>
-            {submitted ? "Clear" : "Submit"}
-          </Text>
-        </Pressable>
-        {submitted ?
-          <Text style={styles.text}>
-            Your are registered as {name}
-          </Text> :
-          <Image 
-            style={styles.image}
-            source={require("./assets/icon.png")}
-            resizeMode="stretch"
-          />
-        }
-      </ImageBackground>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ header: ()=> null }}>
+        <Stack.Screen name="Home" component={Home} /> 
+        <Stack.Screen name="About" component={About} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
-    // backgroundColor: "#ffffff",
+    justifyContent: "center",
     alignItems: "center"
   },
   text: {
-    fontSize: 20,
-    margin: 10
+    fontSize: 40,
+    fontWeight: "bold"
   },
-  input: {
-    borderWidth: 1,
-    width: 200,
-    border: "#555",
-    borderRadius: 5,
+  button: {
     padding: 10,
-  },
-  centered_view: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#00000099"
-  },
-  warning_title: {
-    height: 50,
-    width: 300,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ff0",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
-  },
-  warning_body: {
-    width: 300,
-    height: 300,
-    backgroundColor: "#fff",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center"
-  },
-  image: {
-    width: 100,
-    height: 100
+    borderRadius: 10,
   }
 });
