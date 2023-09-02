@@ -27,7 +27,7 @@ export default function App() {
           }}
         >
           <Drawer.Screen name="Home" component={Home} options={{ drawerIcon: ()=>(<FontAwesome name="home" size={24} />) }} /> 
-          <Drawer.Screen name="About" component={About} />
+          <Drawer.Screen name="About" component={About} initialParams={{ itemName: "Item from Drawer", id: 12 }} />
         </Drawer.Navigator>
       </NavigationContainer>
     </SafeAreaView>

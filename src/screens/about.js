@@ -1,7 +1,9 @@
 import { Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 
-const About = ({ navigation }) => {
+const About = ({ navigation, route }) => {
+  const { itemName, id } = route.params;
+
   const onPressHandler = ()=> {
     navigation.navigate("Home")
   }
@@ -21,6 +23,8 @@ const About = ({ navigation }) => {
       >
         <Text>Go to Home page</Text>
       </Pressable>
+
+      <Text style={styles.text}>{itemName}</Text>
     </SafeAreaView>
   )
 }
