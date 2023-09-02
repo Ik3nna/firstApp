@@ -1,5 +1,11 @@
+import { useCallback } from 'react';
 import { Text, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+// styles
+import globalStyle from '../components/globalStyle';
 
 const About = ({ navigation, route }) => {
   const { itemName, id } = route.params;
@@ -7,24 +13,36 @@ const About = ({ navigation, route }) => {
   const onPressHandler = ()=> {
     navigation.navigate("Home")
   }
+
+  const [fontsLoaded] = useFonts({
+    'Roboto-Thin': require('../../assets/fonts/Roboto-Thin.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
     
   return (
-    <SafeAreaView style={styles.body}>
+    <SafeAreaView style={[globalStyle.body]} onLayout={onLayoutRootView}>
       <StatusBar style="auto" />
-      <Text style={styles.text}>About</Text>
+      <Text style={[globalStyle.text, styles.text]}>About</Text>
 
       <Pressable
         onPress={onPressHandler}
         style={({pressed})=> 
         [
           { backgroundColor: pressed ? "#ddd" : "#0f0" },
-          styles.button
+          globalStyle.button
         ]}
       >
         <Text>Go to Home page</Text>
       </Pressable>
-
-      <Text style={styles.text}>{itemName}</Text>
     </SafeAreaView>
   )
 }
@@ -32,17 +50,7 @@ const About = ({ navigation, route }) => {
 export default About
 
 const styles = StyleSheet.create({
-    body: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    text: {
-      fontSize: 40,
-      fontWeight: "bold"
-    },
-    button: {
-      padding: 10,
-      borderRadius: 10,
-    }
+  text: {
+    fontFamily: "Roboto-Thin"
+  }
 });
