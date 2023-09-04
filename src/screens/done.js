@@ -5,7 +5,7 @@ export default function Done() {
   return (
     <SafeAreaView style={styles.container}>
         <View>
-        <Text>Done</Text>
+       
         </View>
     </SafeAreaView>
   )

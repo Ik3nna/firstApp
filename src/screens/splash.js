@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from 'expo-font';
 import globalStyle from "../components/globalStyle";
 import * as SplashScreen from 'expo-splash-screen';
+import { useFocusEffect } from "@react-navigation/native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,9 +21,19 @@ const Splash = ({ navigation })=> {
 
     useEffect(()=>{
         setTimeout(()=>{
-            navigation.navigate("Todo")
+            navigation.navigate("My Tasks")
         }, 2000);
     },[])
+
+    useFocusEffect(
+        useCallback(() => {
+          const timer = setTimeout(() => {
+            navigation.navigate("My Tasks");
+          }, 2000);
+    
+          return () => clearTimeout(timer); 
+        }, [navigation])
+    );
     
     if (!fontsLoaded) {
         return null;

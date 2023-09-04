@@ -1,28 +1,58 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Splash from './src/screens/splash';
-import Map from './src/screens/map';
-import RNCamera from './src/screens/camera';
+import Task from './src/screens/task';
 import Todo from './src/screens/todo';
 import Done from './src/screens/done';
 
 // icons
-import { FontAwesome } from '@expo/vector-icons'; 
-import { SafeAreaView } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
+  return(
+    <Tab.Navigator 
+      screenOptions={
+        ({ route }) => ({ 
+          tabBarIcon: ({ focused, size, color }) => {
+            let iconName;
+            if (route.name === "Todo") {
+              iconName = "sticky-note";
+              size = focused ? 25 : 20;
+            } else if (route.name === "Done") {
+              iconName = "notes-medical";
+              size = focused ? 25 : 20;
+            }
+            return(
+              <FontAwesome5 name={iconName} size={size} color={color} />
+            )
+          },
+          tabBarActiveTintColor: "#0080ff",
+          tabBarInactiveTintColor: "#777777",
+          tabBarLabelStyle: { fontSize: 15, fontWeight: "bold"}
+        })
+      }
+    >
+      <Tab.Screen name="Todo" component={Todo} options={{ headerShown: false }} />
+      <Tab.Screen name='Done' component={Done} options={{ headerShown: false }}  />
+    </Tab.Navigator>
+  )
+}
+
+
+const RootStack = createStackNavigator();
 
 export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Splash '>
-        <Stack.Screen name="Splash" component={Splash } options={{ headerShown: false }} /> 
-        <Stack.Screen name="Todo" component={Todo} /> 
-        <Stack.Screen name="Done" component={Done} />
-        <Stack.Screen name="Map" component={Map} /> 
-        <Stack.Screen name="Camera" component={RNCamera} /> 
-      </Stack.Navigator>
+      <RootStack.Navigator initialRouteName='Splash'>
+        <RootStack.Screen name="Home" component={Splash } options={{ headerShown: false }} /> 
+        <RootStack.Screen name='My Tasks' component={HomeTabs} />
+        <RootStack.Screen name='Task' component={Task} />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
