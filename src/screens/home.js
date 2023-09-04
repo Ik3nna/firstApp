@@ -83,6 +83,17 @@ const Home = ({ navigation, route }) => {
       <StatusBar style="auto" />
       <Text style={[globalStyle.text, styles.text]}>Welcome Ikenna</Text>
 
+      <Pressable
+        style={({pressed})=> 
+          [
+            { backgroundColor: pressed ? "#ddd" : "#0080ff" },
+            globalStyle.button
+          ]}
+        onPress={()=> navigation.navigate("Camera")}
+      >
+        <Text>Open camera</Text>
+      </Pressable>
+
       <FlatList 
         keyExtractor={(item, index)=> index.toString()}
         data={DATA}
