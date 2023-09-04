@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from './src/screens/home';
 import Login from './src/screens/login';
+import Map from './src/screens/map';
 
 
 // icons
@@ -15,14 +16,10 @@ export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator 
-          initialRouteName='Login'
-          // screenOptions={{
-          //   headerTitleAlign: "center",
-          // }}
-        >
+        <Stack.Navigator initialRouteName='Login'>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> 
           <Stack.Screen name="Home" component={Home} /> 
+          <Stack.Screen name="Map" component={Map} /> 
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

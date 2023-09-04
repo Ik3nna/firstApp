@@ -32,19 +32,27 @@ const Home = ({ navigation, route }) => {
   const DATA = [
     {
       title: 'United States',
-      subtitle: "New York"
+      subtitle: "New York",
+      latitude: "40.71692902600371",
+      longitude: "-74.01542790234286"
     },
     {
       title: 'Australia',
-      subtitle: "Sydney"
+      subtitle: "Sydney",
+      latitude: "-33.86995736018323",
+      longitude: "151.19994316536426"
     },
     {
       title: 'Germany',
-      subtitle: "Berlin"
+      subtitle: "Berlin",
+      latitude: "52.520721013691364",
+      longitude: "13.399979163230219"
     },
     {
       title: 'France',
-      subtitle: "Paris"
+      subtitle: "Paris",
+      latitude: "48.85691728176082",
+      longitude: "2.3532377365677513"
     },
   ];
 
@@ -79,7 +87,7 @@ const Home = ({ navigation, route }) => {
         keyExtractor={(item, index)=> index.toString()}
         data={DATA}
         renderItem={({item})=>(
-          <TouchableOpacity onPress={async () => { await schedulePushNotification(item) }}>
+          <TouchableOpacity onPress={async () => { await schedulePushNotification(item), navigation.navigate("Map", { city: item.subtitle, lat: item.latitude, long: item.longitude  }) }}>
             <View style={styles.view}>
               <Text style={styles.mainText}>{item.title}</Text>
 
