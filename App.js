@@ -6,6 +6,9 @@ import Task from './src/screens/task';
 import Todo from './src/screens/todo';
 import Done from './src/screens/done';
 
+import { Provider } from 'react-redux';
+import store from './src/redux';
+
 // icons
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
@@ -41,19 +44,19 @@ function HomeTabs() {
   )
 }
 
-
 const RootStack = createStackNavigator();
 
 export default function App() {
-
   return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName='Splash'>
-        <RootStack.Screen name="Home" component={Splash } options={{ headerShown: false }} /> 
-        <RootStack.Screen name='My Tasks' component={HomeTabs} />
-        <RootStack.Screen name='Task' component={Task} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStack.Navigator initialRouteName='Splash'>
+          <RootStack.Screen name="Home" component={Splash } options={{ headerShown: false }} /> 
+          <RootStack.Screen name='My Tasks' component={HomeTabs} />
+          <RootStack.Screen name='Task' component={Task} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
