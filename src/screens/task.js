@@ -30,8 +30,17 @@ export default function Task({ navigation, route }) {
       Alert.alert("Warning", "Please write your task title.")
     } else {
       let task = { title: title, desc: desc }
-      dispatch(todoActions.addTodo(task));
-      Alert.alert("Success", "Task saved successfully!!")
+      const existingTaskIndex = todos.findIndex((task) => task.id === route.params?.itemId);
+      if (existingTaskIndex !== -1) {
+        // Update the existing task
+        dispatch(todoActions.updateTodo({ id: route.params?.itemId, ...task }));
+        Alert.alert("Success", "Task updated successfully!!")
+      } else {
+        // Add a new task
+        dispatch(todoActions.addTodo(task));
+        Alert.alert("Success", "Task saved successfully!!")
+      }
+     
       setTitle("");
       setDesc("");
       navigation.goBack();

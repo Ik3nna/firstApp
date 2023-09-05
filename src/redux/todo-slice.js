@@ -11,6 +11,13 @@ const todoSlice = createSlice({
         addTodo (state, action) {
             state.todos_List = [...state.todos_List, { id: ++id, ...action.payload }]
         },
+        updateTodo (state, action) {
+            const { id, ...updatedTask } = action.payload;
+            const index = state.todos_List.findIndex((task) => task.id === id);
+            if (index !== -1) {
+            state.todos_List[index] = { ...state.todos_List[index], ...updatedTask };
+            }
+        },
         deleteTodo (state, action) {
 
         }
