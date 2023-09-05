@@ -1,11 +1,35 @@
-import { StyleSheet, TextInput, Text, View } from 'react-native'
-import React, { useState } from 'react';
+import { StyleSheet, TextInput, Text, View, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react';
 import CustomButton from '../components/customButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { todoActions } from '../redux/todo-slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Task() {
+export default function Task({ navigation }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
+  const dispatch = useDispatch();
+
+  const todos = useSelector((state)=>state.todo.todos_List);
+
+  const saveTask = ()=> {
+    if (title.length == 0) {
+      Alert.alert("Warning", "Please write your task title.")
+    } else {
+      let task = { title: title, desc: desc }
+      dispatch(todoActions.addTodo(task));
+      Alert.alert("Success", "Task saved successfully!!")
+      setTitle("");
+      setDesc("");
+      navigation.goBack();
+    }
+  }
+
+  useEffect(()=>{
+    AsyncStorage.setItem("Tasks", JSON.stringify(todos));
+  }, [todos])
+  
   return (
     <View style={styles.body}>
       <TextInput 
@@ -25,7 +49,7 @@ export default function Task() {
         title="Save Task"
         color="#1eb900"
         style={{ width: "100%" }}
-        onPress
+        onPressFunction={saveTask}
       />
     </View>
   )

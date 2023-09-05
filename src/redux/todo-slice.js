@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+let id = 0;
+
 const todoSlice = createSlice({
     name: "todos",
     initialState: {
@@ -7,7 +9,7 @@ const todoSlice = createSlice({
     },
     reducers: {
         addTodo (state, action) {
-
+            state.todos_List = [...state.todos_List, { id: ++id, ...action.payload }]
         },
         deleteTodo (state, action) {
 
