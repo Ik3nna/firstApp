@@ -5,13 +5,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { todoActions } from '../redux/todo-slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Task({ navigation }) {
+export default function Task({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
   const dispatch = useDispatch();
 
   const todos = useSelector((state)=>state.todo.todos_List);
+
+  useEffect(()=>{
+    getTask();
+  },[])
+
+  const getTask = ()=> {
+    const Task = todos.find((task)=> task.id === route.params.itemId)
+    if (Task) {
+      setTitle(Task.title);
+      setDesc(Task.desc);
+    }
+  }
 
   const saveTask = ()=> {
     if (title.length == 0) {
@@ -41,8 +53,8 @@ export default function Task({ navigation }) {
       <TextInput 
         style={styles.input} 
         placeholder='Description'
-        multiline
         value={desc}
+        multiline
         onChangeText={(value)=>setDesc(value)}
       />
       <CustomButton 
