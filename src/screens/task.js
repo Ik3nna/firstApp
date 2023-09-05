@@ -18,7 +18,7 @@ export default function Task({ navigation, route }) {
   },[])
 
   const getTask = ()=> {
-    const Task = todos.find((task)=> task.id === route.params.itemId)
+    const Task = todos.find((task)=> task.id === route.params?.itemId)
     if (Task) {
       setTitle(Task.title);
       setDesc(Task.desc);
