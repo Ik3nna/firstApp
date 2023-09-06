@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector, useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { todoActions } from '../redux/todo-slice';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { todoActions } from '../redux/todo-slice';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,19 +23,12 @@ const Todo = ({ navigation }) => {
     }
   }, [fontsLoaded]);
 
-
   const tasks = useSelector((state) => state.todo.todos_List);
   const dispatch = useDispatch();
 
-  const getTasks = ()=> {
-    AsyncStorage.getItem("Tasks")
-    .then(tasks => {
-      const parsedTasks = JSON.parse(tasks);
-      if (parsedTasks && typeof parsedTasks === "object") {
-        dispatch(todoActions.addTodo(parsedTasks));
-      }
-    })
-    .catch(err => console.log(err));
+  const handleDelete = (id)=> {
+    dispatch(todoActions.deleteTodo(id));
+    Alert.alert("Success", "Task removed successfully")
   }
 
   if (!fontsLoaded) {
@@ -51,8 +43,15 @@ const Todo = ({ navigation }) => {
         keyExtractor={(item, index)=>index.toString()}
         renderItem={({ item })=> (
           <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate("Task", { itemId: item.id})}>
-            <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
-            <Text style={styles.desc}>{item.desc}</Text>
+            <View style={styles.item_row}>
+              <View style={styles.item_body}>
+                <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
+                <Text style={styles.desc}>{item.desc}</Text>
+              </View>
+              <TouchableOpacity style={styles.delete} onPress={()=> handleDelete(item.id)}>
+                <FontAwesome5 name="trash" size={25} color="#ff3636" />
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -80,6 +79,19 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     elevation: 5
+  },
+  item_row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  item_body: {
+    flex: 1,
+  },
+  delete: {
+    width: "50",
+    height: "50",
+    justifyContent: "center",
+    alignItems: "center"
   },
   item: {
     marginHorizontal: 10,

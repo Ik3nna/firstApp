@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import CustomButton from '../components/customButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { todoActions } from '../redux/todo-slice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Task({ navigation, route }) {
   const [title, setTitle] = useState("");
@@ -25,8 +24,8 @@ export default function Task({ navigation, route }) {
     }
   }
 
-  const saveTask = ()=> {
-    if (title.length == 0) {
+  const saveTask = async ()=> {
+    if (title.length === 0) {
       Alert.alert("Warning", "Please write your task title.")
     } else {
       let task = { title: title, desc: desc }
@@ -46,10 +45,6 @@ export default function Task({ navigation, route }) {
       navigation.goBack();
     }
   }
-
-  useEffect(()=>{
-    AsyncStorage.setItem("Tasks", JSON.stringify(todos));
-  }, [todos])
   
   return (
     <View style={styles.body}>
