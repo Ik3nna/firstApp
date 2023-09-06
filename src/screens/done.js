@@ -12,7 +12,7 @@ SplashScreen.preventAutoHideAsync();
 // icons
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
-const Todo = ({ navigation }) => {
+const Done = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     'Roboto-ThinItalic': require('../../assets/fonts/Roboto-ThinItalic.ttf'),
     'Roboto-Black': require('../../assets/fonts/Roboto-Black.ttf'),
@@ -68,30 +68,15 @@ const Todo = ({ navigation }) => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate("Task")}>
-        <FontAwesome5 name={'plus'} size={20} color="#ffffff" />
-      </TouchableOpacity>
     </View>
   )
 }
 
-export default Todo;
+export default Done;
 
 const styles = StyleSheet.create({
   body: {
     flex: 1
-  },
-  button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#0080ff",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    elevation: 5
   },
   item_row: {
     flexDirection: "row",
