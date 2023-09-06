@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-let id = 0;
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 const todoSlice = createSlice({
     name: "todos",
@@ -9,7 +9,7 @@ const todoSlice = createSlice({
     },
     reducers: {
         addTodo (state, action) {
-            state.todos_List = [...state.todos_List, { id: ++id, ...action.payload }]
+            state.todos_List = [...state.todos_List, { id: uuidv4(), ...action.payload }]
         },
         updateTodo (state, action) {
             const { id, ...updatedTask } = action.payload;

@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import CustomButton from '../components/customButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { todoActions } from '../redux/todo-slice';
+import Checkbox from 'expo-checkbox';
 
 export default function Task({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [isChecked, setChecked] = useState(false);  
 
   const dispatch = useDispatch();
 
@@ -21,6 +23,7 @@ export default function Task({ navigation, route }) {
     if (Task) {
       setTitle(Task.title);
       setDesc(Task.desc);
+      setChecked(Task.done)
     }
   }
 
@@ -28,7 +31,7 @@ export default function Task({ navigation, route }) {
     if (title.length === 0) {
       Alert.alert("Warning", "Please write your task title.")
     } else {
-      let task = { title: title, desc: desc }
+      let task = { title: title, desc: desc, done: isChecked }
       const existingTaskIndex = todos.findIndex((task) => task.id === route.params?.itemId);
       if (existingTaskIndex !== -1) {
         // Update the existing task
@@ -61,6 +64,10 @@ export default function Task({ navigation, route }) {
         multiline
         onChangeText={(value)=>setDesc(value)}
       />
+      <View style={styles.checkbox_container}>
+        <Checkbox style={styles.checkbox} value={isChecked} onValueChange={(value)=>setChecked(value)} />
+        <Text style={styles.checkbox_text}>Is Done</Text>
+      </View>
       <CustomButton 
         title="Save Task"
         color="#1eb900"
@@ -87,5 +94,17 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: 20,
     margin: 10,
+  },
+  checkbox_container: {
+    flexDirection: "row",
+    margin: 10,
+    alignItems: "center",
+  },
+  checkbox_text: {
+    fontSize: 20,
+    color: "#000000",
+  },
+  checkbox: {
+    margin: 8
   }
 })

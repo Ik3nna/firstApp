@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { todoActions } from '../redux/todo-slice';
+import Checkbox from 'expo-checkbox';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,6 +32,17 @@ const Todo = ({ navigation }) => {
     Alert.alert("Success", "Task removed successfully")
   }
 
+  const checkTask = (id, newValue)=> {
+    const index = tasks.findIndex((task)=> task.id === id);
+
+    if (index > -1) {
+      const updatedTasks = [...tasks]; // Create a new array
+      updatedTasks[index] = { ...updatedTasks[index], done: newValue }; // Update the done property
+      dispatch(todoActions.updateTodo({ id, ...updatedTasks[index] }));
+      Alert.alert("Success", "Task state is changed.")
+    }
+  }
+
   if (!fontsLoaded) {
     return null;
   }
@@ -39,11 +51,12 @@ const Todo = ({ navigation }) => {
     <View style={styles.body} onLayout={onLayoutRootView}>
       <StatusBar style='auto' />
       <FlatList
-        data={tasks}
+        data={tasks.filter((task)=> task.done === false)}
         keyExtractor={(item, index)=>index.toString()}
         renderItem={({ item })=> (
           <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate("Task", { itemId: item.id})}>
             <View style={styles.item_row}>
+              <Checkbox value={item.done} onValueChange={(newValue)=>{checkTask(item.id, newValue)}} />
               <View style={styles.item_body}>
                 <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
                 <Text style={styles.desc}>{item.desc}</Text>
