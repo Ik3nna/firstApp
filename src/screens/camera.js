@@ -7,6 +7,7 @@ import { todoActions } from '../redux/todo-slice';
 const RNCamera = ({ navigation, route }) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [isRecording, setIsRecording] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -38,6 +39,10 @@ const RNCamera = ({ navigation, route }) => {
   async function takePicture() {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
+      console.log('Picture taken:', uri);
+      setCapturedImage(uri);
+      setIsRecording(false);
+
       updateTask(route.params?.id, uri);
     }
   }
@@ -53,6 +58,10 @@ const RNCamera = ({ navigation, route }) => {
       setIsRecording(true);
     }
   }
+
+  // function goBackToCamera() {
+  //   setCapturedImage(null);
+  // }
 
   if (!permission) {
     // Camera permissions are still loading
