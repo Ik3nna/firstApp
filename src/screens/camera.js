@@ -1,20 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Button, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Button, Image, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import { useSelector, useDispatch } from 'react-redux';
+import { todoActions } from '../redux/todo-slice';
 
-const RNCamera = () => {
-//   const [type, setType] = useState(CameraType.back);
-//   const [permission, requestPermission] = Camera.useCameraPermissions();
-
-//   function toggleCameraType() {
-//     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-//   }
+const RNCamera = ({ navigation, route }) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [isRecording, setIsRecording] = useState(false);
-  const [capturedImage, setCapturedImage] = useState(null);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  const todos = useSelector((state)=>state.todo.todos_List);
+  const dispatch = useDispatch();
+
+  const updateTask = (id, path)=> {
+    const index = todos.findIndex((task)=>task.id === id);
+
+    if (index > -1) {
+      let newTasks = [...todos];
+      newTasks[index] = { ...newTasks[index], image: path };
+      dispatch(todoActions.updateTodo({ id, ...newTasks[index] }));
+      Alert.alert("Success", "Task image is saved.");
+      navigation.navigate("Task");
+    }
+  }
 
   async function toggleCameraType() {
     setType((prevType) =>
@@ -28,9 +38,7 @@ const RNCamera = () => {
   async function takePicture() {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
-      console.log('Picture taken:', uri);
-      setCapturedImage(uri);
-      setIsRecording(false);
+      updateTask(route.params?.id, uri);
     }
   }
 
@@ -46,10 +54,6 @@ const RNCamera = () => {
     }
   }
 
-  function goBackToCamera() {
-    setCapturedImage(null);
-  }
-
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -57,31 +61,22 @@ const RNCamera = () => {
 
   return (
     <View style={styles.body}>
-      {capturedImage ? (
-        <Image source={{ uri: capturedImage }} style={[styles.capturedImage, type === Camera.Constants.Type.front && { transform: [{ scaleX: -1 }] }]} />
-      ) : (
-        <Camera style={styles.camera} type={type} ref={cameraRef} >
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-              <Text style={styles.text}>Flip Camera</Text>
-            </TouchableOpacity>
+      <Camera style={styles.camera} type={type} ref={cameraRef} >
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+            <Text style={styles.text}>Flip Camera</Text>
+          </TouchableOpacity>
             
-            <TouchableOpacity
-              style={styles.button}
-              onPress={isRecording ? toggleRecording : takePicture}
-            >
-              <Text style={styles.text}>
-                {isRecording ? 'Stop Recording' : 'Take Picture'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
-      )}
-      {capturedImage && (
-        <TouchableOpacity style={styles.goBackButton} onPress={goBackToCamera}>
-          <Text style={styles.goBackText}>Go Back to Camera</Text>
-        </TouchableOpacity>
-      )}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={isRecording ? toggleRecording : takePicture}
+          >
+            <Text style={styles.text}>
+              {isRecording ? 'Stop Recording' : 'Take Picture'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
     </View>
   )
 }
