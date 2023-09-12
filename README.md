@@ -32,7 +32,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
   .  Click on the "Add Todo" button.
 
 
-    ![add-todo](https://github.com/Ik3nna/todoApp/assets/101594456/dbc77727-0e60-4865-a859-8de0f96d6a6e)
+  ![add-todo](https://github.com/Ik3nna/todoApp/assets/101594456/dbc77727-0e60-4865-a859-8de0f96d6a6e)
 
     
   .  Enter a title and description for your new todo.
