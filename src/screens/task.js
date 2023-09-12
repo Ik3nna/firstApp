@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, Text, View, Alert, TouchableOpacity, Modal } from 'react-native'
+import { StyleSheet, TextInput, Text, View, Alert, TouchableOpacity, Modal, Image } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react';
 import CustomButton from '../components/customButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import Checkbox from 'expo-checkbox';
 import { FontAwesome5} from '@expo/vector-icons'; 
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import { ScrollView } from 'react-native-gesture-handler';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -52,10 +53,10 @@ export default function Task({ navigation, route }) {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  },[])
+  },[]);
 
   const getTask = ()=> {
-    const Task = todos.find((task)=> task.id === route.params?.itemId)
+    const Task = todos.find((task)=> task.id === route.params?.itemId);
     if (Task) {
       setTitle(Task.title);
       setDesc(Task.desc);
@@ -101,96 +102,95 @@ export default function Task({ navigation, route }) {
   }
   
   return (
-    <View style={styles.body}>
-      <Modal
-        visible={showBellModal}
-        transparent
-        onRequestClose={()=>setShowBellModal(false)}
-        animationType='slide'
-        hardwareAccelerated
-      >
-        <View style={styles.centered_view}>
-          <View style={styles.bell_modal}>
-            <View style={styles.bell_body}>
-              <Text style={styles.text}>Remind me after</Text>
-              <TextInput 
-                style={styles.bell_input}
-                keyboardType="numeric"
-                value={bellTime}
-                onChangeText={(value)=>setBellTime(value)}
-              />
-              <Text style={styles.text}>minute(s)</Text>
-            </View>
-            <View style={styles.bell_buttons}>
-              <TouchableOpacity style={styles.bell_cancel_button} onPress={()=>setShowBellModal(false)}>
-                <Text style={styles.text}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.bell_ok_button}  onPress={async () => { await schedulePushNotification()}}>
-                <Text style={styles.text}>OK</Text>
-              </TouchableOpacity>
+    <ScrollView>
+      <View style={styles.body}>
+        <Modal
+          visible={showBellModal}
+          transparent
+          onRequestClose={()=>setShowBellModal(false)}
+          animationType='slide'
+          hardwareAccelerated
+        >
+          <View style={styles.centered_view}>
+            <View style={styles.bell_modal}>
+              <View style={styles.bell_body}>
+                <Text style={styles.text}>Remind me after</Text>
+                <TextInput 
+                  style={styles.bell_input}
+                  keyboardType="numeric"
+                  value={bellTime}
+                  onChangeText={(value)=>setBellTime(value)}
+                />
+                <Text style={styles.text}>minute(s)</Text>
+              </View>
+              <View style={styles.bell_buttons}>
+                <TouchableOpacity style={styles.bell_cancel_button} onPress={()=>setShowBellModal(false)}>
+                  <Text style={styles.text}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bell_ok_button}  onPress={async () => { await schedulePushNotification()}}>
+                  <Text style={styles.text}>OK</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
 
-      </Modal>
-      <TextInput 
-        style={styles.input} 
-        placeholder='Title'
-        value={title}
-        onChangeText={(value)=>setTitle(value)}
-      />
-      <TextInput 
-        style={styles.input} 
-        placeholder='Description'
-        value={desc}
-        multiline
-        onChangeText={(value)=>setDesc(value)}
-      />
-      <View style={styles.color_bar}>
-        <TouchableOpacity 
-          style={styles.color_white} 
-          onPress={()=>setColor("white")}
-        >
-          {color === "white" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.color_red} 
-          onPress={()=>setColor("red")}
-        >
-          {color === "red" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.color_blue} 
-          onPress={()=>setColor("blue")}
-        >
-          {color === "blue" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.color_green} 
-          onPress={()=>setColor("green")}
-        >
-          {color === "green" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
-        </TouchableOpacity>
+        </Modal>
+        <TextInput 
+          style={styles.input} 
+          placeholder='Title'
+          value={title}
+          onChangeText={(value)=>setTitle(value)}
+        />
+        <TextInput 
+          style={styles.input} 
+          placeholder='Description'
+          value={desc}
+          multiline
+          onChangeText={(value)=>setDesc(value)}
+        />
+        <View style={styles.color_bar}>
+          <TouchableOpacity 
+            style={styles.color_white} 
+            onPress={()=>setColor("white")}
+          >
+            {color === "white" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.color_red} 
+            onPress={()=>setColor("red")}
+          >
+            {color === "red" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.color_blue} 
+            onPress={()=>setColor("blue")}
+          >
+            {color === "blue" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.color_green} 
+            onPress={()=>setColor("green")}
+          >
+            {color === "green" && <FontAwesome5 name={"check"} size={25} color="#000000" />}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.extra_row}>
+          <TouchableOpacity style={styles.extra_button} onPress={()=>setShowBellModal(true)}>
+            <FontAwesome5 name="bell" size={25} color={"#ffffff"} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.checkbox_container}>
+          <Checkbox style={styles.checkbox} value={isChecked} onValueChange={(value)=>setChecked(value)} />
+          <Text style={styles.checkbox_text}>Is Done</Text>
+        </View>
+        <CustomButton 
+          title="Save Task"
+          color="#1eb900"
+          style={{ width: "100%" }}
+          onPressFunction={saveTask}
+        />
       </View>
-      <View style={styles.extra_row}>
-        <TouchableOpacity style={styles.extra_button} onPress={()=>setShowBellModal(true)}>
-          <FontAwesome5 name="bell" size={25} color={"#ffffff"} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.extra_button} onPress={()=>navigation.navigate("Camera", { id: route.params?.itemId })}>
-          <FontAwesome5 name="camera" size={25} color={"#ffffff"} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.checkbox_container}>
-        <Checkbox style={styles.checkbox} value={isChecked} onValueChange={(value)=>setChecked(value)} />
-        <Text style={styles.checkbox_text}>Is Done</Text>
-      </View>
-      <CustomButton 
-        title="Save Task"
-        color="#1eb900"
-        style={{ width: "100%" }}
-        onPressFunction={saveTask}
-      />
-    </View>
+    </ScrollView>
   )
 }
 
@@ -309,7 +309,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
-
   },
   checkbox_container: {
     flexDirection: "row",
@@ -322,6 +321,11 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     margin: 8
+  },
+  image: {
+    width: 300,
+    height: 300,
+    margin: 20
   }
 })
 

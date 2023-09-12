@@ -5,7 +5,6 @@ import Splash from './src/screens/splash';
 import Task from './src/screens/task';
 import Todo from './src/screens/todo';
 import Done from './src/screens/done';
-import RNCamera from './src/screens/camera';
 
 import { Provider } from 'react-redux';
 import store from './src/redux';
@@ -55,7 +54,6 @@ export default function App() {
           <RootStack.Screen name="Home" component={Splash } options={{ headerShown: false }} /> 
           <RootStack.Screen name='My Tasks' component={HomeTabs} />
           <RootStack.Screen name='Task' component={Task} />
-          <RootStack.Screen name='Camera' component={RNCamera} />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>

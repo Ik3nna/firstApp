@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Button, Image, Alert } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import { useSelector, useDispatch } from 'react-redux';
 import { todoActions } from '../redux/todo-slice';
@@ -12,6 +12,9 @@ const RNCamera = ({ navigation, route }) => {
   const cameraRef = useRef(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
+  const { setImage } = route.params;
+  setImage(capturedImage);
+
   const todos = useSelector((state)=>state.todo.todos_List);
   const dispatch = useDispatch();
 
@@ -22,9 +25,7 @@ const RNCamera = ({ navigation, route }) => {
       let newTasks = [...todos];
       newTasks[index] = { ...newTasks[index], image: path };
       dispatch(todoActions.updateTodo({ id, ...newTasks[index] }));
-      Alert.alert("Success", "Task image is saved.");
-      navigation.navigate("Task");
-    }
+    } 
   }
 
   async function toggleCameraType() {
@@ -39,11 +40,12 @@ const RNCamera = ({ navigation, route }) => {
   async function takePicture() {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
-      console.log('Picture taken:', uri);
       setCapturedImage(uri);
       setIsRecording(false);
 
-      updateTask(route.params?.id, uri);
+      updateTask(route.params?.id, uri); 
+      Alert.alert("Success", "Task image is saved.");
+      navigation.navigate("Task", { fc: isFrontCamera });
     }
   }
 
@@ -58,10 +60,6 @@ const RNCamera = ({ navigation, route }) => {
       setIsRecording(true);
     }
   }
-
-  // function goBackToCamera() {
-  //   setCapturedImage(null);
-  // }
 
   if (!permission) {
     // Camera permissions are still loading
