@@ -27,7 +27,8 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
 #  Usage
 
-1.  Create a New Todo:
+##  Create a New Todo:
+
   .  Click on the "Add Todo" button.
 
 
@@ -46,17 +47,19 @@ This is a Todo App built with React Native Expo that allows users to manage thei
   ![save-todo](https://github.com/Ik3nna/todoApp/assets/101594456/fa4ff29e-7413-4279-97b4-233ac684f054)
 
   
-3.  Edit a Todo:
+##  Edit a Todo:
    
   .  Click on the todo you want to edit from the list.
     
   .  Make the desired changes and click "Save Task" to update it.
+
   
-4.  Delete Todos:
+##  Delete Todos:
    
   .  Click on the delete icon
+
   
-5.  Mark Todos as Done:
+##  Mark Todos as Done:
 
   .  Click on a todo to view its details.
 
@@ -65,8 +68,9 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
     
   .  Toggle the "Done" switch to mark it as completed.
+
   
- 6.  View Completed Todos:
+##  View Completed Todos:
    
   .  Click on the "Done" tab to see all your completed todos.
   
@@ -74,7 +78,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
   ![done-todo](https://github.com/Ik3nna/todoApp/assets/101594456/2469d9c2-b230-4a12-bd44-88bdadedaa8d)
 
   
- 7.  Set Push Notifications:
+##  Set Push Notifications:
 
   .  When creating or editing a todo, you can set a reminder time.
   
