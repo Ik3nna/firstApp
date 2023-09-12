@@ -1,4 +1,4 @@
-# todoApp
+#  todoApp
 This is a Todo App built with React Native Expo that allows users to manage their tasks effectively. Users can create new todos, edit existing ones, view their todo list, mark todos as done, and receive push notifications for important tasks.
 
 #Features
@@ -16,14 +16,14 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
 7.  Push Notifications: Set reminders for specific tasks, and the app will send push notifications to remind you of upcoming todos.
 
-#Technologies Used
+#  Technologies Used
 1.  React Native Expo: A framework for building native mobile apps using React.
 
 2.  Redux: A state management library for managing the application's state.
 
 3.  Expo Push Notifications: To enable push notifications for reminding users of their todos.
 
-#Usage
+#  Usage
 1.  Create a New Todo:
   .  Click on the "Add Todo" button.
 
@@ -44,19 +44,27 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
   
 3.  Edit a Todo:
+   
   .  Click on the todo you want to edit from the list.
+    
   .  Make the desired changes and click "Save Task" to update it.
-4.  Delete Todos:
+  
+5.  Delete Todos:
+   
   .  Click on the delete icon
-5.  Mark Todos as Done:
+  
+7.  Mark Todos as Done:
+
   .  Click on a todo to view its details.
 
     
-    ![todo-details](https://github.com/Ik3nna/todoApp/assets/101594456/cc57a18a-dda5-49f6-bd7c-a92be7c7f721)
+  ![todo-details](https://github.com/Ik3nna/todoApp/assets/101594456/cc57a18a-dda5-49f6-bd7c-a92be7c7f721)
 
     
   .  Toggle the "Done" switch to mark it as completed.
+  
 7.  View Completed Todos:
+   
   .  Click on the "Done" tab to see all your completed todos.
   
   
@@ -64,14 +72,16 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
   
 8.  Set Push Notifications:
+
   .  When creating or editing a todo, you can set a reminder time.
+  
   .  The app will send push notifications at the specified time to remind you of the task.
 
 
-    ![push-notification](https://github.com/Ik3nna/todoApp/assets/101594456/150d0a83-4ee3-4dfd-acbd-41c39703390e)
+  ![push-notification](https://github.com/Ik3nna/todoApp/assets/101594456/150d0a83-4ee3-4dfd-acbd-41c39703390e)
 
     
-#Author
+#  Author
 Linkedin: https://www.linkedin.com/in/ikenna-ndukwu/
 Twitter:  https://twitter.com/_Ik3nna
 
