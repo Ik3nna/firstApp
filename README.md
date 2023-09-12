@@ -1,7 +1,8 @@
 #  todoApp
 This is a Todo App built with React Native Expo that allows users to manage their tasks effectively. Users can create new todos, edit existing ones, view their todo list, mark todos as done, and receive push notifications for important tasks.
 
-#Features
+#  Features
+
 1.  Create a New Todo: Users can easily create new tasks by providing a title and description.
 
 2.  Edit a Todo: Edit existing todos by clicking on them and making the necessary changes.
@@ -17,6 +18,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 7.  Push Notifications: Set reminders for specific tasks, and the app will send push notifications to remind you of upcoming todos.
 
 #  Technologies Used
+
 1.  React Native Expo: A framework for building native mobile apps using React.
 
 2.  Redux: A state management library for managing the application's state.
@@ -24,6 +26,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 3.  Expo Push Notifications: To enable push notifications for reminding users of their todos.
 
 #  Usage
+
 1.  Create a New Todo:
   .  Click on the "Add Todo" button.
 
@@ -49,11 +52,11 @@ This is a Todo App built with React Native Expo that allows users to manage thei
     
   .  Make the desired changes and click "Save Task" to update it.
   
-5.  Delete Todos:
+4.  Delete Todos:
    
   .  Click on the delete icon
   
-7.  Mark Todos as Done:
+5.  Mark Todos as Done:
 
   .  Click on a todo to view its details.
 
@@ -63,7 +66,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
     
   .  Toggle the "Done" switch to mark it as completed.
   
-7.  View Completed Todos:
+ 6.  View Completed Todos:
    
   .  Click on the "Done" tab to see all your completed todos.
   
@@ -71,7 +74,7 @@ This is a Todo App built with React Native Expo that allows users to manage thei
   ![done-todo](https://github.com/Ik3nna/todoApp/assets/101594456/2469d9c2-b230-4a12-bd44-88bdadedaa8d)
 
   
-8.  Set Push Notifications:
+ 7.  Set Push Notifications:
 
   .  When creating or editing a todo, you can set a reminder time.
   
@@ -82,7 +85,9 @@ This is a Todo App built with React Native Expo that allows users to manage thei
 
     
 #  Author
+
 Linkedin: https://www.linkedin.com/in/ikenna-ndukwu/
+
 Twitter:  https://twitter.com/_Ik3nna
 
 
