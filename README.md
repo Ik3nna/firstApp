@@ -19,7 +19,7 @@ This is a Todo App built with React Native that allows users to manage their tas
 
 #  Technologies Used
 
-1.  React Native Expo: A framework for building native mobile apps using React.
+1.  React Native: A framework for building native mobile apps using React.
 
 2.  Redux: A state management library for managing the application's state.
 
