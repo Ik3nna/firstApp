@@ -1,5 +1,5 @@
 #  todoApp
-This is a Todo App built with React Native Expo that allows users to manage their tasks effectively. Users can create new todos, edit existing ones, view their todo list, mark todos as done, and receive push notifications for important tasks.
+This is a Todo App built with React Native that allows users to manage their tasks effectively. Users can create new todos, edit existing ones, view their todo list, mark todos as done, and receive push notifications for important tasks.
 
 #  Features
 
